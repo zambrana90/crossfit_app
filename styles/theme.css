@@ -1,0 +1,3 @@
+.invert-colors {
+  @apply invert dark:invert-0;
+}
