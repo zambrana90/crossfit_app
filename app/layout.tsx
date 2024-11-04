@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import Navbar from '@/components/shared/navbar/Navbar';
-import LeftSidebar from '@/components/shared/LeftSidebar';
 import BottomNavbar from '@/components/shared/navbar/BottomNavbar';
 
 const geistSans = localFont({
@@ -33,11 +32,7 @@ export default function RootLayout({
       >
         <main className='relative'>
           <Navbar />
-          <div className='flex'>
-            <LeftSidebar />
-
-            <div className='mx-auto size-full max-w-5xl pt-16'>{children}</div>
-          </div>
+          <div className='mx-auto size-full max-w-5xl pt-16'>{children}</div>
           <BottomNavbar />
         </main>
       </body>
