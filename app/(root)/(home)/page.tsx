@@ -1,8 +1,12 @@
 import WorkoutCard from '@/components/cards/WorkoutCard';
 import { getAllTrains } from '@/lib/actions/train.action';
+import { SearchParamsProps } from '@/types';
 
-export default async function Home() {
-  const result = await getAllTrains();
+export default async function Home({ searchParams }: SearchParamsProps) {
+  const resolvedSearchParams = await searchParams;
+  const result = await getAllTrains({
+    page: resolvedSearchParams?.page ? +resolvedSearchParams.page : 1,
+  });
 
   const trains = result.trains;
 

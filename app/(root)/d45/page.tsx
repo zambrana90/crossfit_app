@@ -4,8 +4,9 @@ import { getD45Trains } from '@/lib/actions/train.action';
 import { SearchParamsProps } from '@/types';
 
 export default async function Page({ searchParams }: SearchParamsProps) {
+  const resolvedSearchParams = await searchParams;
   const result = await getD45Trains({
-    page: searchParams?.page ? +searchParams.page : 1,
+    page: resolvedSearchParams?.page ? +resolvedSearchParams.page : 1,
   });
 
   const trains = result.trains;
@@ -34,7 +35,9 @@ export default async function Page({ searchParams }: SearchParamsProps) {
       ))}
       <div className='mb-20'>
         <Pagination
-          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          pageNumber={
+            resolvedSearchParams?.page ? +resolvedSearchParams.page : 1
+          }
           isNext={result.isNext}
         />
       </div>
