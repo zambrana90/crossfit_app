@@ -1,8 +1,12 @@
 import WorkoutCard from '@/components/cards/WorkoutCard';
+import Pagination from '@/components/shared/Pagination';
 import { getD45Trains } from '@/lib/actions/train.action';
+import { SearchParamsProps } from '@/types';
 
-export default async function Page() {
-  const result = await getD45Trains();
+export default async function Page({ searchParams }: SearchParamsProps) {
+  const result = await getD45Trains({
+    page: searchParams?.page ? +searchParams.page : 1,
+  });
 
   const trains = result.trains;
 
@@ -28,6 +32,12 @@ export default async function Page() {
       {trains.map((el: ElElement) => (
         <WorkoutCard el={el} key={el._id} />
       ))}
+      <div className='mb-20'>
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={result.isNext}
+        />
+      </div>
     </>
   );
 }
