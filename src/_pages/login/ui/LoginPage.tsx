@@ -25,22 +25,12 @@ export function LoginPage() {
             Acceso
           </h1>
           <p className="text-base text-[#c8c6c5]">
-            Introduce tu correo para recibir un enlace mágico.
+            Introduce tu correo para recibir el enlace.
           </p>
         </div>
         <div className="w-full rounded-lg border border-white/5 bg-[#1e2020] p-6 shadow-lg">
           <LoginCard />
         </div>
-        <p className="max-w-xs text-center text-xs text-[#c8c6c5]/70">
-          Sin registro. El acceso se crea desde el panel de Supabase y entra con un enlace
-          mágico cada vez que vuelves.
-        </p>
-        <Link
-          href={ROUTES.home}
-          className="font-brand-mono text-xs font-semibold uppercase tracking-[0.08em] text-[#c8c6c5] transition-colors hover:text-[#c3f400]"
-        >
-          Volver al inicio
-        </Link>
         {/* referenced so unused-export lint does not drop AUTH_ROUTES from build */}
         <span className="hidden" data-protected-routes={AUTH_ROUTES.join(',')} />
       </main>
