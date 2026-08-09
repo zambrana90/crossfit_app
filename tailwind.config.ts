@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 const config: Config = {
     darkMode: ["class"],
@@ -6,9 +7,18 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./scripts/**/*.{ts,tsx}",
   ],
   theme: {
   	extend: {
+      fontFamily: {
+        display: ['var(--font-barlow)', 'sans-serif'],
+        body: ['var(--font-hanken)', 'system-ui', 'sans-serif'],
+        'brand-display': ['var(--font-barlow)', 'sans-serif'],
+        'brand-body': ['var(--font-hanken)', 'system-ui', 'sans-serif'],
+        'brand-mono': ['var(--font-jetbrains)', 'monospace'],
+      },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
@@ -43,6 +53,19 @@ const config: Config = {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
+  			surface: {
+  				DEFAULT: 'hsl(var(--surface))',
+  				container: 'hsl(var(--surface-container))',
+  				variant: 'hsl(var(--surface-variant))'
+  			},
+  			'on-surface': {
+  				DEFAULT: 'hsl(var(--on-surface))',
+  				variant: 'hsl(var(--on-surface-variant))'
+  			},
+  			'primary-container': {
+  				DEFAULT: 'hsl(var(--primary-container))',
+  				foreground: 'hsl(var(--primary-container-foreground))'
+  			},
   			chart: {
   				'1': 'hsl(var(--chart-1))',
   				'2': 'hsl(var(--chart-2))',
@@ -58,6 +81,6 @@ const config: Config = {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate],
 };
 export default config;

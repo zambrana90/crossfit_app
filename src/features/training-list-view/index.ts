@@ -1,0 +1,1 @@
+export { TrainingListView } from './ui/TrainingListView';

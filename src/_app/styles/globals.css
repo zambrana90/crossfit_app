@@ -1,0 +1,126 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Theme tokens — TITAN CORE dark: near-black surfaces + acid-lime primary.
+   Applied to BOTH :root and .dark so the whole app renders dark regardless
+   of the next-themes selection (the app is dark-only by design). */
+@layer base {
+  :root {
+    --background: 180 5% 7%; /* #121414 */
+    --foreground: 0 0% 89%; /* #e2e2e2 */
+    --card: 180 3% 12%; /* #1e2020 */
+    --card-foreground: 0 0% 89%;
+    --popover: 180 3% 12%;
+    --popover-foreground: 0 0% 89%;
+    --primary: 72 100% 48%; /* #c3f400 */
+    --primary-foreground: 180 5% 7%; /* near-black on lime */
+    --secondary: 180 2% 20%; /* #333535 */
+    --secondary-foreground: 20 3% 78%; /* #c8c6c5 */
+    --muted: 180 2% 20%;
+    --muted-foreground: 20 3% 78%;
+    --accent: 72 100% 48%;
+    --accent-foreground: 180 5% 7%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 180 3% 16%; /* ≈ white/8 over #121414 */
+    --input: 180 3% 16%;
+    --ring: 72 100% 48%;
+    --chart-1: 72 100% 48%;
+    --chart-2: 0 0% 89%;
+    --chart-3: 20 3% 78%;
+    --chart-4: 180 2% 35%;
+    --chart-5: 72 60% 30%;
+    --radius: 0.75rem;
+
+    /* TITAN CORE surface tokens (Material-style naming from the design) */
+    --surface: 180 5% 7%; /* #121414 */
+    --surface-container: 180 3% 12%; /* #1e2020 */
+    --surface-variant: 180 2% 20%; /* #333535 */
+    --on-surface: 0 0% 89%; /* #e2e2e2 */
+    --on-surface-variant: 20 3% 78%; /* #c8c6c5 */
+    --primary-container: 72 100% 48%; /* #c3f400 */
+    --primary-container-foreground: 180 5% 7%;
+
+    /* Per-class badge colors */
+    --class-wod: 72 100% 48%;
+    --class-bootcamp: 152 60% 45%;
+    --class-d45: 200 80% 55%;
+  }
+
+  .dark {
+    --background: 180 5% 7%;
+    --foreground: 0 0% 89%;
+    --card: 180 3% 12%;
+    --card-foreground: 0 0% 89%;
+    --popover: 180 3% 12%;
+    --popover-foreground: 0 0% 89%;
+    --primary: 72 100% 48%;
+    --primary-foreground: 180 5% 7%;
+    --secondary: 180 2% 20%;
+    --secondary-foreground: 20 3% 78%;
+    --muted: 180 2% 20%;
+    --muted-foreground: 20 3% 78%;
+    --accent: 72 100% 48%;
+    --accent-foreground: 180 5% 7%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 180 3% 16%;
+    --input: 180 3% 16%;
+    --ring: 72 100% 48%;
+    --chart-1: 72 100% 48%;
+    --chart-2: 0 0% 89%;
+    --chart-3: 20 3% 78%;
+    --chart-4: 180 2% 35%;
+    --chart-5: 72 60% 30%;
+
+    --surface: 180 5% 7%;
+    --surface-container: 180 3% 12%;
+    --surface-variant: 180 2% 20%;
+    --on-surface: 0 0% 89%;
+    --on-surface-variant: 20 3% 78%;
+    --primary-container: 72 100% 48%;
+    --primary-container-foreground: 180 5% 7%;
+
+    --class-wod: 72 100% 48%;
+    --class-bootcamp: 152 60% 45%;
+    --class-d45: 200 80% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+  /* Hide the page scrollbar while keeping scrolling (wheel / touch / keyboard). */
+  html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* legacy Edge/IE */
+  }
+  html::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Drawer open/close: slide + fade. Tailwindcss-animate's data-state[x]"
+   already wires the simple variants; this adds the dynamic spring feel. */
+@layer utilities {
+  .drawer-enter {
+    @apply translate-x-0 opacity-100;
+  }
+  .drawer-exit {
+    @apply translate-x-full opacity-0 pointer-events-none;
+  }
+  /* Horizontally scrollable pill rows without a visible scrollbar */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
