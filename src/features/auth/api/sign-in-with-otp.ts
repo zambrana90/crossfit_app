@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { browserClient } from '@/shared/api/supabase';
+import { createClient } from '@supabase/supabase-js';
 
 /**
  * Magic-link sending with inline feedback.
@@ -13,12 +13,11 @@ import { browserClient } from '@/shared/api/supabase';
 export function useMagicLink() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const supabase = browserClient();
 
   async function sendMagicLink(email: string, redirectTo: string) {
     setStatus('sending');
     setErrorMessage(null);
-    const { error } = await supabase.auth.signInWithOtp({
+    const { error } = await implicitOtpClient().auth.signInWithOtp({
       email,
       options: {
         emailRedirectTo: redirectTo,
@@ -48,4 +47,30 @@ export function useMagicLink() {
   }
 
   return { status, errorMessage, sendMagicLink, reset };
+}
+
+/**
+ * Implicit-flow client for initiating magic links.
+ *
+ * The app's main browser client (`@supabase/ssr`) hardcodes PKCE, whose
+ * verifier lives only in the requesting browser — links then fail when opened
+ * elsewhere (mail apps use a separate cookie jar; cross-device always fails).
+ * This client starts the OTP without a code challenge, so GoTrue emits the
+ * implicit flow: tokens ride in the redirect URL fragment and the callback page
+ * swaps them for a session via the @supabase/ssr client (cookie storage).
+ *
+ * Stateless: never persists a session, only POSTs the OTP request.
+ */
+function implicitOtpClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+        flowType: 'implicit',
+      },
+    },
+  );
 }
