@@ -30,6 +30,7 @@ export const TRAININGS_SELECT = `
       block_id,
       position,
       external_id,
+      exercise_id,
       name,
       reps,
       weight,

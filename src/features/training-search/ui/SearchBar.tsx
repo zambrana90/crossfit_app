@@ -7,9 +7,13 @@ import { useTrainingFilters } from '@/features/training-search/model/use-trainin
 
 interface SearchBarProps {
   placeholder?: string;
+  ariaLabel?: string;
 }
 
-export function SearchBar({ placeholder = 'Buscar entrenamientos…' }: SearchBarProps) {
+export function SearchBar({
+  placeholder = 'Buscar entrenamientos…',
+  ariaLabel = 'Buscar entrenamientos por ejercicio',
+}: SearchBarProps) {
   const { search, setSearch } = useTrainingFilters();
   const [value, setValue] = useState(search);
   const [prevSearch, setPrevSearch] = useState(search);
@@ -49,7 +53,7 @@ export function SearchBar({ placeholder = 'Buscar entrenamientos…' }: SearchBa
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
         className="h-12 rounded-full border-white/10 bg-white/5 pl-11 font-brand-mono text-xs uppercase tracking-[0.08em] text-white backdrop-blur-md placeholder:text-on-surface-variant/50 focus-visible:border-primary-container focus-visible:ring-1 focus-visible:ring-primary-container/50 focus-visible:ring-offset-0"
-        aria-label="Buscar entrenamientos por ejercicio"
+        aria-label={ariaLabel}
       />
     </div>
   );

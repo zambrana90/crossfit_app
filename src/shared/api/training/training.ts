@@ -5,6 +5,7 @@ export interface BlockExerciseRow {
   block_id: string;
   position: number;
   external_id: string | null;
+  exercise_id: string | null; // → exercises.id (exercises library link)
   name: string;
   reps: string | null;
   weight: string | null;

@@ -1,10 +1,11 @@
 'use client';
 
-import Image from 'next/image';
+import { useState } from 'react';
 import { formatTrainDay, decodeDescription, cn } from '@/shared/lib/format-date';
 import { TRAINING_CLASS_LABEL, type TrainingClass } from '@/shared/config/training-classes';
 import { FavButton } from './FavButton';
 import { DoneButton } from './DoneButton';
+import { ExerciseImageModal } from './ExerciseImageModal';
 import type { TrainingListFilter } from '@/shared/api/training';
 
 interface WorkoutCardExercise {
@@ -92,9 +93,9 @@ export function WorkoutCard(props: WorkoutCardProps) {
 
 /**
  * Compact per-block summary: title, optional description lines, then every
- * exercise row (reps, name, weight, optional thumbnail on the right). Visual
- * grammar comes from the TITAN CORE card; extra blocks reuse it so no
- * training data is hidden.
+ * exercise row (reps, name, weight). Exercises with an image render the name
+ * as a button that opens the image lightbox. Visual grammar comes from the
+ * TITAN CORE card; extra blocks reuse it so no training data is hidden.
  */
 function BlockSummary({
   block,
@@ -105,6 +106,8 @@ function BlockSummary({
   hero?: boolean;
   fallbackTitle?: string | null;
 }) {
+  const [selected, setSelected] = useState<WorkoutCardExercise | null>(null);
+
   const description = decodeDescription(block.description ?? '');
   const title = block.title ?? (description.length > 0 ? description[0] : null) ?? fallbackTitle;
   const bodyLines =
@@ -115,7 +118,6 @@ function BlockSummary({
         : [];
 
   const exercises = (block.exercises ?? []).filter((e) => e.name);
-  const exerciseImages = exercises.filter((e) => e.img);
 
   return (
     <div className={hero ? undefined : 'mt-4 border-t border-primary-container/20 pt-4'}>
@@ -143,28 +145,28 @@ function BlockSummary({
               {ex.reps ? (
                 <span className="shrink-0 font-brand-mono text-base text-white">{ex.reps}</span>
               ) : null}
-              <span className="text-sm font-medium uppercase tracking-wide text-on-surface-variant">
-                {ex.name}
-                {ex.weight ? <span className="text-white/40"> · {ex.weight}</span> : null}
-              </span>
+              {ex.img ? (
+                <button
+                  type="button"
+                  onClick={() => setSelected(ex)}
+                  className="rounded-sm text-left text-sm font-medium uppercase tracking-wide text-on-surface-variant underline-offset-4 transition-colors hover:text-white hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-container"
+                >
+                  {ex.name}
+                  {ex.weight ? <span className="text-white/40"> · {ex.weight}</span> : null}
+                </button>
+              ) : (
+                <span className="text-sm font-medium uppercase tracking-wide text-on-surface-variant">
+                  {ex.name}
+                  {ex.weight ? <span className="text-white/40"> · {ex.weight}</span> : null}
+                </span>
+              )}
             </div>
           ))}
         </div>
       ) : null}
 
-      {exerciseImages.length > 0 ? (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {exerciseImages.map((ex) => (
-            <Image
-              key={ex.id}
-              src={ex.img!}
-              alt=""
-              width={314}
-              height={131}
-              className="h-auto w-40 shrink-0 rounded-lg object-cover"
-            />
-          ))}
-        </div>
+      {selected ? (
+        <ExerciseImageModal exercise={selected} onClose={() => setSelected(null)} />
       ) : null}
     </div>
   );

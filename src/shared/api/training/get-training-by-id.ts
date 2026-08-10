@@ -12,7 +12,7 @@ export async function getTrainingById(id: string, userId: string): Promise<Train
       `id, class, day, created_at, updated_at, created_by,
        training_blocks (
          id, training_id, position, title, description, rounds, rounds_meta,
-         block_exercises (id, block_id, position, external_id, name, reps, weight, img)
+         block_exercises (id, block_id, position, external_id, exercise_id, name, reps, weight, img)
        )`,
     )
     .eq('id', id)
